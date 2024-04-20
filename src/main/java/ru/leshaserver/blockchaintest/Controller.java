@@ -8,11 +8,15 @@ public class Controller {
     public static ArrayList<Block> blockchain = new ArrayList<Block>();
 
     public static void main(String[] args) {
+        Integer difficulty = 10;
+
         blockchain.add(new Block("First", "0"));
-        blockchain.add(new Block("Second", blockchain.get(blockchain.size()-1).getHash()));
-        blockchain.add(new Block("Third", blockchain.get(blockchain.size()-1).getHash()));
-        blockchain.add(new Block("Fifth", blockchain.get(blockchain.size()-1).getHash()));
-        blockchain.add(new Block("Sixth", blockchain.get(blockchain.size()-1).getHash()));
+        blockchain.get(0).mineBlock(difficulty);
+
+        for (Integer i = 1; i < 10; i++) {
+            blockchain.add(new Block(i.toString(), blockchain.get(i - 1).getHash()));
+            blockchain.get(i).mineBlock(difficulty);
+        }
 
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(blockchain));
         System.out.println(isChainValid());

@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class Block {
 
-    private final String hash;
-    private final String previousHash;
+    private String hash;
+    private String previousHash;
     public String data;
-    private final String timeStamp;
+    private String timeStamp;
+    private Long nonce = 0l;
 
     public Block (String data, String previousHash) {
         this.data = data;
@@ -17,7 +18,15 @@ public class Block {
     }
 
     public String calculateHash() {
-        return Utils.SHA256(this.previousHash + this.timeStamp + this.data);
+        return Utils.SHA256(this.previousHash + this.timeStamp + this.data + nonce.toString());
+    }
+
+    public void mineBlock(Integer difficulty) {
+        String target = new String(new char[difficulty]).replace('\0', '0');
+        while (!calculateHash().substring(0, difficulty).equals(target)) {
+            nonce++;
+            this.hash = calculateHash();
+        }
     }
 
     public String getHash() { return this.hash; }
