@@ -14,8 +14,19 @@ public class Controller {
         blockchain.add(new Block("Fifth", blockchain.get(blockchain.size()-1).getHash()));
         blockchain.add(new Block("Sixth", blockchain.get(blockchain.size()-1).getHash()));
 
-        String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockchain);
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(blockchain));
+        System.out.println(isChainValid());
+    }
 
-        System.out.printf(blockchainJson);
+    private static Boolean isChainValid() {
+        for (int i = 1; i < blockchain.size(); i++) {
+            if (!blockchain.get(i).getHash().equals(blockchain.get(i).calculateHash())) {
+                return false;
+            }
+            if (!blockchain.get(i - 1).getHash().equals(blockchain.get(i).getPreviousHash())) {
+                return false;
+            }
+        }
+        return true;
     }
 }
