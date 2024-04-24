@@ -66,6 +66,10 @@ public class Blockchain {
         return true;
     }
 
+    public ArrayList<Block> getBlockchainArray() {
+        return blockchainArray;
+    }
+
     public String getBlockHash(int position) {
         return blockchainArray.get(position).hash;
     }
