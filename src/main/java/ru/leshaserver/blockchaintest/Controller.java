@@ -8,35 +8,33 @@ public class Controller {
     /*public static ArrayList<Block> blockchain = new ArrayList<Block>();*/
 
     public static void main(String[] args) {
-        /*Integer difficulty = 5;
-
-        blockchain.add(new Block("First", "0"));
-        blockchain.get(0).mineBlock(difficulty);
-
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(blockchain));
-        System.out.println(isChainValid());*/
-
-        Blockchain blockchain = new Blockchain();
+        Integer difficulty = 3;
+        Blockchain blockchain = new Blockchain(6);
 
         blockchain.addBlock("First data!");
         blockchain.addBlock("Second data!");
 
-        System.out.println(blockchain.getBlock(0).data);
-        System.out.println(blockchain.getBlock(0).getHash());
-        System.out.println(blockchain.getBlock(0).getPreviousHash());
-        System.out.println(blockchain.getBlock(1).data);
-        System.out.println(blockchain.getBlock(1).getHash());
-        System.out.println(blockchain.getBlock(1).getPreviousHash());
-        System.out.println(blockchain.getBlock(2).data);
-        System.out.println(blockchain.getBlock(2).getHash());
-        System.out.println(blockchain.getBlock(2).getPreviousHash());
-    }
+        System.out.println("---------------------------------------------------------------");
+        System.out.println(blockchain.getBlockData(0));
+        System.out.println(blockchain.getBlockHash(0));
+        System.out.println(blockchain.getBlockPreviousHash(0));
+        System.out.println(blockchain.getBlockTimeStamp(0));
+        System.out.println(blockchain.getBlockNonce(0));
+        System.out.println("---------------------------------------------------------------");
+        System.out.println(blockchain.getBlockData(1));
+        System.out.println(blockchain.getBlockHash(1));
+        System.out.println(blockchain.getBlockPreviousHash(1));
+        System.out.println(blockchain.getBlockTimeStamp(1));
+        System.out.println(blockchain.getBlockNonce(1));
+        System.out.println("---------------------------------------------------------------");
+        System.out.println(blockchain.getBlockData(2));
+        System.out.println(blockchain.getBlockHash(2));
+        System.out.println(blockchain.getBlockPreviousHash(2));
+        System.out.println(blockchain.getBlockTimeStamp(2));
+        System.out.println(blockchain.getBlockNonce(2));
+        System.out.println("---------------------------------------------------------------");
+        System.out.println(blockchain.isValid());
 
-    /*private static Boolean isChainValid() {
-        for (int i = 1; i < blockchain.size(); i++) {
-            if (!blockchain.get(i).getHash().equals(blockchain.get(i).calculateHash())) { return false; }
-            if (!blockchain.get(i - 1).getHash().equals(blockchain.get(i).getPreviousHash())) { return false; }
-        }
-        return true;
-    }*/
+        //System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(blockchain.getBlock(0)));
+    }
 }
