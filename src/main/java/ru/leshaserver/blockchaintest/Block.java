@@ -8,7 +8,7 @@ public class Block {
     private String previousHash;
     public String data;
     private String timeStamp;
-    private Long nonce = 0l;
+    private Long nonce = 0L;
 
     public Block (String data, String previousHash) {
         this.data = data;
