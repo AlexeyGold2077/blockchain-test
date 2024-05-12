@@ -1,4 +1,4 @@
-package ru.leshaserver.blockchaintest;
+package ru.leshaserver.blockchain;
 
 import java.util.ArrayList;
 import java.util.Date;
