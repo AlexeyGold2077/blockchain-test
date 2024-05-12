@@ -98,4 +98,8 @@ public class Blockchain {
             return false;
         }
     }
+
+    public Integer getBlocksNumber() {
+        return blockchainArray.size();
+    }
 }
