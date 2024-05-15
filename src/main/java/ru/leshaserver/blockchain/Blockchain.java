@@ -5,53 +5,23 @@ import java.util.Date;
 
 public class Blockchain {
 
-    private class Block {
-
-        private String hash;
-        private String previousHash;
-        public String data;
-        private String timeStamp;
-        private Long nonce = 0L;
-
-        public Block (String data, String previousHash) {
-            this.data = data;
-            this.previousHash = previousHash;
-            this.timeStamp = Long.toString(new Date().getTime());
-            this.hash = calculateHash();
-        }
-
-        public String calculateHash() {
-            return Utils.SHA256(this.previousHash + this.timeStamp + this.data + nonce.toString());
-        }
-
-        public void mineBlock(Integer difficulty) {
-            String target = new String(new char[difficulty]).replace('\0', '0');
-            while (!calculateHash().substring(0, difficulty).equals(target)) {
-                nonce++;
-                this.hash = calculateHash();
-            }
-        }
-    }
-
     private static ArrayList<Block> blockchainArray;
-    private int difficulty;
+    private int difficulty = 0;
 
     public Blockchain() {
         difficulty = 0;
         blockchainArray = new ArrayList<Block>();
-        blockchainArray.add(new Block("Genesis", "0"));
-        blockchainArray.get(blockchainArray.size() - 1).mineBlock(difficulty);
+        blockchainArray.add(new Block("Genesis", "0", difficulty));
     }
 
     public Blockchain(int difficulty) {
         this.difficulty = difficulty;
         blockchainArray = new ArrayList<Block>();
-        blockchainArray.add(new Block("Genesis", "0"));
-        blockchainArray.get(blockchainArray.size() - 1).mineBlock(difficulty);
+        blockchainArray.add(new Block("Genesis", "0", difficulty));
     }
 
     public void addBlock(String data) {
-        blockchainArray.add(new Block(data, blockchainArray.get(blockchainArray.size() - 1).hash));
+        blockchainArray.add(new Block(data, blockchainArray.get(blockchainArray.size() - 1).hash, difficulty));
         blockchainArray.get(blockchainArray.size() - 1).mineBlock(difficulty);
     }
 
@@ -101,5 +71,41 @@ public class Blockchain {
 
     public Integer getBlocksNumber() {
         return blockchainArray.size();
+    }
+
+    private class Block {
+
+        private String data;
+        private String previousHash;
+        private Integer difficulty;
+        private String timeStamp;
+        private String hash;
+        private Long nonce = 0L;
+
+        public Block(String data, String previousHash, Integer difficulty) {
+            this.data = data;
+            this.timeStamp = Long.toString(new Date().getTime());
+            this.previousHash = previousHash;
+            this.difficulty = difficulty;
+            this.mineBlock(difficulty);
+        }
+
+        public void mineBlock(Integer difficulty) {
+            String target = new String(new char[difficulty]).replace('\0', '0');
+            while (!Utils.SHA256(this.previousHash + this.timeStamp + this.data + this.nonce.toString())
+                    .substring(0, difficulty).equals(target)) {
+                nonce++;
+                this.hash = Utils.SHA256(this.previousHash + this.timeStamp + this.data + this.nonce.toString());
+            }
+        }
+
+        public String calculateHash() {
+            return Utils.SHA256(this.data + this.previousHash +
+                    this.difficulty.toString() + this.timeStamp + this.hash + this.nonce.toString());
+        }
+
+        public Integer getDifficulty() {
+            return difficulty;
+        }
     }
 }
